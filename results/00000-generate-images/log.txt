@@ -1,0 +1,59 @@
+dnnlib: Running run_generator.generate_images() on localhost...
+Loading networks from "gdrive:networks/stylegan2-ffhq-config-f.pkl"...
+Downloading http://d36zk2xti64re0.cloudfront.net/stylegan2/networks/stylegan2-ffhq-config-f.pkl ... done
+Setting up TensorFlow plugin "fused_bias_act.cu": Preprocessing... Failed!
+Traceback (most recent call last):
+  File "run_generator.py", line 168, in <module>
+    main()
+  File "run_generator.py", line 163, in main
+    dnnlib.submit_run(sc, func_name_map[subcmd], **kwargs)
+  File "/home/ubuntu/GitHub/stylegan2/dnnlib/submission/submit.py", line 343, in submit_run
+    return farm.submit(submit_config, host_run_dir)
+  File "/home/ubuntu/GitHub/stylegan2/dnnlib/submission/internal/local.py", line 22, in submit
+    return run_wrapper(submit_config)
+  File "/home/ubuntu/GitHub/stylegan2/dnnlib/submission/submit.py", line 280, in run_wrapper
+    run_func_obj(**submit_config.run_func_kwargs)
+  File "/home/ubuntu/GitHub/stylegan2/run_generator.py", line 21, in generate_images
+    _G, _D, Gs = pretrained_networks.load_networks(network_pkl)
+  File "/home/ubuntu/GitHub/stylegan2/pretrained_networks.py", line 76, in load_networks
+    G, D, Gs = pickle.load(stream, encoding='latin1')
+  File "/home/ubuntu/GitHub/stylegan2/dnnlib/tflib/network.py", line 297, in __setstate__
+    self._init_graph()
+  File "/home/ubuntu/GitHub/stylegan2/dnnlib/tflib/network.py", line 154, in _init_graph
+    out_expr = self._build_func(*self.input_templates, **build_kwargs)
+  File "<string>", line 491, in G_synthesis_stylegan2
+  File "<string>", line 455, in layer
+  File "<string>", line 99, in modulated_conv2d_layer
+  File "<string>", line 68, in apply_bias_act
+  File "/home/ubuntu/GitHub/stylegan2/dnnlib/tflib/ops/fused_bias_act.py", line 68, in fused_bias_act
+    return impl_dict[impl](x=x, b=b, axis=axis, act=act, alpha=alpha, gain=gain)
+  File "/home/ubuntu/GitHub/stylegan2/dnnlib/tflib/ops/fused_bias_act.py", line 122, in _fused_bias_act_cuda
+    cuda_kernel = _get_plugin().fused_bias_act
+  File "/home/ubuntu/GitHub/stylegan2/dnnlib/tflib/ops/fused_bias_act.py", line 16, in _get_plugin
+    return custom_ops.get_plugin(os.path.splitext(__file__)[0] + '.cu')
+  File "/home/ubuntu/GitHub/stylegan2/dnnlib/tflib/custom_ops.py", line 111, in get_plugin
+    _run_cmd(_prepare_nvcc_cli('"%s" --preprocess -o "%s" --keep --keep-dir "%s"' % (cuda_file, tmp_file, tmp_dir)))
+  File "/home/ubuntu/GitHub/stylegan2/dnnlib/tflib/custom_ops.py", line 61, in _run_cmd
+    raise RuntimeError('NVCC returned an error. See below for full command line and output log:\n\n%s\n\n%s' % (cmd, output))
+RuntimeError: NVCC returned an error. See below for full command line and output log:
+
+nvcc "/home/ubuntu/GitHub/stylegan2/dnnlib/tflib/ops/fused_bias_act.cu" --preprocess -o "/tmp/tmp1et00yjv/fused_bias_act_tmp.cu" --keep --keep-dir "/tmp/tmp1et00yjv" --disable-warnings --include-path "/home/ubuntu/anaconda3/envs/py36/lib/python3.6/site-packages/tensorflow_core/include" --include-path "/home/ubuntu/anaconda3/envs/py36/lib/python3.6/site-packages/tensorflow_core/include/external/protobuf_archive/src" --include-path "/home/ubuntu/anaconda3/envs/py36/lib/python3.6/site-packages/tensorflow_core/include/external/com_google_absl" --include-path "/home/ubuntu/anaconda3/envs/py36/lib/python3.6/site-packages/tensorflow_core/include/external/eigen_archive" 2>&1
+
+In file included from /usr/include/c++/5/unordered_map:35:0,
+                 from /home/ubuntu/anaconda3/envs/py36/lib/python3.6/site-packages/tensorflow_core/include/tensorflow/core/framework/op.h:20,
+                 from /home/ubuntu/GitHub/stylegan2/dnnlib/tflib/ops/fused_bias_act.cu:9:
+/usr/include/c++/5/bits/c++0x_warning.h:32:2: error: #error This file requires compiler and library support for the ISO C++ 2011 standard. This support must be enabled with the -std=c++11 or -std=gnu++11 compiler options.
+ #error This file requires compiler and library support \
+  ^
+In file included from /home/ubuntu/anaconda3/envs/py36/lib/python3.6/site-packages/tensorflow_core/include/absl/base/config.h:66:0,
+                 from /home/ubuntu/anaconda3/envs/py36/lib/python3.6/site-packages/tensorflow_core/include/absl/strings/string_view.h:31,
+                 from /home/ubuntu/anaconda3/envs/py36/lib/python3.6/site-packages/tensorflow_core/include/tensorflow/core/platform/stringpiece.h:29,
+                 from /home/ubuntu/anaconda3/envs/py36/lib/python3.6/site-packages/tensorflow_core/include/tensorflow/core/lib/core/stringpiece.h:29,
+                 from /home/ubuntu/anaconda3/envs/py36/lib/python3.6/site-packages/tensorflow_core/include/tensorflow/core/lib/core/status.h:24,
+                 from /home/ubuntu/anaconda3/envs/py36/lib/python3.6/site-packages/tensorflow_core/include/tensorflow/core/framework/op_def_builder.h:25,
+                 from /home/ubuntu/anaconda3/envs/py36/lib/python3.6/site-packages/tensorflow_core/include/tensorflow/core/framework/op.h:23,
+                 from /home/ubuntu/GitHub/stylegan2/dnnlib/tflib/ops/fused_bias_act.cu:9:
+/home/ubuntu/anaconda3/envs/py36/lib/python3.6/site-packages/tensorflow_core/include/absl/base/policy_checks.h:77:2: error: #error "C++ versions less than C++11 are not supported."
+ #error "C++ versions less than C++11 are not supported."
+  ^
+
