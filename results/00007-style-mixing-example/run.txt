@@ -1,0 +1,1 @@
+{'host_name': 'localhost', 'start_time': '2020-01-16 11:53:58.388971', 'stop_time': '2020-01-16 11:53:58.389175', 'task_name': 'ubuntu-00007-style-mixing-example'}
